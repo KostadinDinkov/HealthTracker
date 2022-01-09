@@ -1,8 +1,24 @@
 package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.ManyToAny;
 
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+//@Entity
+//@Table(name="EXERCISE")
 public class Exercise {
+
+  //  @ManyToOne(fetch = FetchType.LAZY)
+  // @JoinColumn(name = "user_id")
+  //  private User user;
+
+
+    //the time of adding the exercise
+    private LocalDateTime localDateTime ;
+
     private long tagID;
     private String userInput;
     private double durationMin;
@@ -63,6 +79,15 @@ public class Exercise {
     public String getBenefits() { return benefits; }
     @JsonProperty("benefits")
     public void setBenefits(String value) { this.benefits = value; }
+
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime() {
+        this.localDateTime = LocalDateTime.now();
+    }
 
     @Override
     public String toString() {

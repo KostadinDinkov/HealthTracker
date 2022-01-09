@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.*;
 import java.util.UUID;
 
 public class Food {
+
     private String foodName;
     private String servingUnit;
     private Object nixBrandID;
