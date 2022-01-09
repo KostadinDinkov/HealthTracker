@@ -54,4 +54,18 @@ public class Food {
     public Object getNixItemID() { return nixItemID; }
     @JsonProperty("nix_item_id")
     public void setNixItemID(Object value) { this.nixItemID = value; }
+
+    @Override
+    public String toString() {
+        return "Food{" +
+                "foodName='" + foodName + '\'' +
+                ", servingUnit='" + servingUnit + '\'' +
+                ", nixBrandID=" + nixBrandID +
+                ", servingQty=" + servingQty +
+                ", nfCalories=" + nfCalories +
+                ", brandName=" + brandName +
+                ", uuid=" + uuid +
+                ", nixItemID=" + nixItemID +
+                '}';
+    }
 }
