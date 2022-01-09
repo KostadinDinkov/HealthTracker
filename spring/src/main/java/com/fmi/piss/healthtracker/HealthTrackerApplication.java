@@ -1,6 +1,7 @@
 package com.fmi.piss.healthtracker;
 
 import com.fmi.piss.healthtracker.services.ExerciseService;
+import com.fmi.piss.healthtracker.services.FoodService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,7 +10,7 @@ public class HealthTrackerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HealthTrackerApplication.class, args);
-		new ExerciseService().lookup("100 pushups");
+		new FoodService().getDetails("2 large eggs");
 	}
 
 }
