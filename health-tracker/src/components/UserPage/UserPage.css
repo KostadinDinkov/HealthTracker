@@ -1,0 +1,22 @@
+.UserPage{
+    margin-top: 5%;
+    width: 50%;
+    margin-left: 25%;
+}
+.UserPage .profile{
+    display: flex;
+    flex-direction: column;
+}
+.UserPage .profile-photo{
+    width:50%;
+}
+.UserPage .user-info{
+    display: flex;
+    flex-direction: column;
+}
+.UserPage span{
+    font-size: 2rem;
+}
+.UserPage button{
+    font-size: 2rem;
+}

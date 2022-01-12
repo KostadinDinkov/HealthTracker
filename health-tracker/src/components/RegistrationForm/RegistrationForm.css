@@ -1,0 +1,39 @@
+.RegistrationForm{
+    width: 30%;
+    margin-left: 30%;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.RegistrationForm .header{
+    font-size:3rem;
+}
+.RegistrationForm .field-name{
+    font-size:2rem;
+}
+.RegistrationForm textarea{
+    height:5ch;
+}
+.RegistrationForm .field-input{
+    font-size:1.6rem;
+}
+.RegistrationForm .submit-btn{
+    font-size:2rem;
+    color: white;
+    background-color: black;
+}
+.RegistrationForm #profile-pic #file-upload-button{
+    font-size:1.6rem;
+    color: white;
+    background-color: black;
+}
+.RegistrationForm .error{
+    display: none;
+    color: red;
+    font-size: 1.3rem;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
