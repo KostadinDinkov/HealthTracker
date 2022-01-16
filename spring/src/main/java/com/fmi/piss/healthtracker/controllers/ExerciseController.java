@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 @RestController
 public class ExerciseController {
 
-    @Autowired
     private UserRepository userRepository;
     private ExerciseService exerciseService;
 
+    @Autowired
     public ExerciseController(ExerciseService exerciseService,UserRepository userRepository){
         this.exerciseService = exerciseService;
         this.userRepository = userRepository;
@@ -32,13 +32,16 @@ public class ExerciseController {
     }
 
     @CrossOrigin
-    @PostMapping
+    @PostMapping("/add")
     public void addExercise(@RequestBody User user){
 
         User existingUser = userRepository.findById(user.getEmail()).get();
-        user.getExercises().stream().forEach((Exercise exercise) -> {exercise.setLocalDateTime();
+        user.getExercises().stream().forEach((Exercise exercise) -> {
+            exercise.setLocalDateTime();
             existingUser.addExercise(exercise);
+            System.out.println(existingUser);
         });
+        userRepository.save(existingUser);
 
     }
 
@@ -51,7 +54,9 @@ public class ExerciseController {
             return existingUser.getExercises().stream().filter((Exercise exercises) -> {
                 return exercises.getLocalDateTime().toLocalDate().equals(LocalDate.now());
             }).collect(Collectors.toList());
+
         }
+
         return null;
     }
 

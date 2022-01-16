@@ -12,8 +12,6 @@ public class HealthTrackerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HealthTrackerApplication.class, args);
-//		var fs = new FoodService().getDetails("2 large eggs");
-
 	}
 
 }

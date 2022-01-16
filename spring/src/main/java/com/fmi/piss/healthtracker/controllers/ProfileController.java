@@ -33,9 +33,8 @@ public class ProfileController {
         return userService.userLoginSuccessful(user);
     }
 
-    @PostMapping()
-    private String updateUser(@RequestBody  User user){
-
+    @PostMapping("/update")
+    private String updateUser(@RequestBody User user){
         return userService.updateUser(user);
     }
 

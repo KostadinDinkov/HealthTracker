@@ -11,9 +11,8 @@ import java.time.LocalDateTime;
 public class FoodDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
-    private LocalDateTime localDateTime;
     private long id;
+    private LocalDateTime localDateTime;
     private String foodName;
     private String brandName;
     private long servingQty;
@@ -38,7 +37,17 @@ public class FoodDetails {
     private long source;
     private long ndbNo;
     private long mealType;
-    //    private Photo photo;
+
+    public Photo getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Photo photo) {
+        this.photo = photo;
+    }
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Photo photo;
     private String tagID;
 
     @JsonProperty("food_name")

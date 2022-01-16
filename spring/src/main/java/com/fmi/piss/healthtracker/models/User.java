@@ -24,11 +24,11 @@ public class User {
     //@Id
     // @GeneratedValue(strategy = GenerationType.AUTO)
     //private long ID;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @Column(nullable = true)
     private Set<Exercise> exercises;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @Column(nullable = true)
     private Set<FoodDetails> foods;
 
@@ -143,6 +143,7 @@ public class User {
         return "User{" +
                 //  "ID=" + ID +
                 ", foods=" + foods +
+                ", exercises=" + exercises +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

@@ -20,7 +20,7 @@ public class Exercise {
     private double durationMin;
     private long met;
     private double nfCalories;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     private Photo photo;
     private long compendiumCode;
     private String name;

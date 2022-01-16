@@ -16,11 +16,10 @@ import java.util.stream.Collectors;
 @RestController
 public class FoodController {
 
-    @Autowired
     private UserRepository userRepository;
-
     private FoodService foodService;
 
+    @Autowired
     public FoodController(FoodService foodService, UserRepository userRepository) {
         this.foodService = foodService;
         this.userRepository = userRepository;
@@ -32,16 +31,18 @@ public class FoodController {
     public List<FoodDetails> getDailyIntake(@RequestBody User user) {
 
         User existingUser = userRepository.findById(user.getEmail()).get();
+        System.out.println(existingUser);
         if (existingUser != null) {
             return existingUser.getFoods().stream().filter((FoodDetails food) -> {
                return food.getLocalDateTime().toLocalDate().equals(LocalDate.now());
+//                return true;
             }).collect(Collectors.toList());
         }
         return null;
     }
 
     @CrossOrigin
-    @PostMapping("/foodList")
+    @PostMapping()
     private List<Food> getFoodList(@RequestBody String foodName) {
         return foodService.lookup(foodName);
     }
@@ -55,15 +56,18 @@ public class FoodController {
     //returns food details by name
 
     @CrossOrigin
-    @PostMapping()
+    @PostMapping("/add")
     private void foodAdded(@RequestBody User user) {
         //receive user with recentlly eaten food
 
         User existingUser = userRepository.findById(user.getEmail()).get();
         user.getFoods().stream().forEach((FoodDetails food) -> {
             food.setLocalDateTime();
+            System.out.println(food);
             existingUser.addFood(food);
         });
+        userRepository.save(existingUser);
+
     }
     //saves info after confirmation
 
