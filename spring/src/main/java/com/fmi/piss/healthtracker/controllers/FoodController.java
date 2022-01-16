@@ -31,7 +31,7 @@ public class FoodController {
     @CrossOrigin
     @PostMapping()
     private void foodAdded(@RequestBody FoodDetails foodDetails){
-        foodDetails.setLocalDateTime(); // it is eaten now
+//        foodDetails.setLocalDateTime(); // it is eaten now
         //add to DB
 
     }

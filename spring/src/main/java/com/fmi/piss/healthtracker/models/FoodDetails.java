@@ -171,13 +171,13 @@ public class FoodDetails {
     @JsonProperty("tag_id")
     public void setTagID(String value) { this.tagID = value; }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime() {
-        this.localDateTime = LocalDateTime.now();
-    }
+//    public LocalDateTime getLocalDateTime() {
+//        return localDateTime;
+//    }
+//
+//    public void setLocalDateTime() {
+//        this.localDateTime = LocalDateTime.now();
+//    }
 
     @Override
     public String toString() {
