@@ -2,7 +2,14 @@ package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+//@Entity
+//@Table(name="food_details")
 public class FoodDetails {
+    //@Id
     private String foodName;
     private String brandName;
     private long servingQty;

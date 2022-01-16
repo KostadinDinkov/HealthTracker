@@ -1,15 +1,22 @@
 package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
 import java.util.List;
+
 
 //@Entity
 //@Table(name="USER")
 public class User {
 
   //  @Id
-  // @GeneratedValue(strategy = GenerationType.AUTO)
-  //  private long ID;
+  //  @GeneratedValue(strategy = GenerationType.AUTO)
+    private long ID;
     private List<Exercise> exercises;
     private List<FoodDetails> foods;
     private String firstName;
@@ -31,11 +38,11 @@ public class User {
         this.exercises = exercises;
     }
 
-    public List<Food> getFoods() {
+    public List<FoodDetails> getFoods() {
         return foods;
     }
 
-    public void setFoods(List<Food> foods) {
+    public void setFoods(List<FoodDetails> foods) {
         this.foods = foods;
     }
 
