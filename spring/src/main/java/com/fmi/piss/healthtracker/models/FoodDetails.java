@@ -3,9 +3,7 @@ package com.fmi.piss.healthtracker.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 public class FoodDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
+    private LocalDateTime localDateTime;
     private long id;
     private String foodName;
     private String brandName;

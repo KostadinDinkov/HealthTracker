@@ -1,8 +1,6 @@
 package com.fmi.piss.healthtracker;
 
-import com.fmi.piss.healthtracker.models.User;
 import com.fmi.piss.healthtracker.repos.UserRepository;
-import com.fmi.piss.healthtracker.services.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
