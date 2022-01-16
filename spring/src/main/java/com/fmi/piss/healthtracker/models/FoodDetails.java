@@ -2,14 +2,14 @@ package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-//@Entity
-//@Table(name="food_details")
+@Entity
+@Table(name="food_details")
 public class FoodDetails {
-    //@Id
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String foodName;
     private String brandName;
     private long servingQty;
@@ -34,7 +34,7 @@ public class FoodDetails {
     private long source;
     private long ndbNo;
     private long mealType;
-    private Photo photo;
+//    private Photo photo;
     private String tagID;
 
     @JsonProperty("food_name")
@@ -157,10 +157,10 @@ public class FoodDetails {
     @JsonProperty("meal_type")
     public void setMealType(long value) { this.mealType = value; }
 
-    @JsonProperty("photo")
-    public Photo getPhoto() { return photo; }
-    @JsonProperty("photo")
-    public void setPhoto(Photo value) { this.photo = value; }
+//    @JsonProperty("photo")
+//    public Photo getPhoto() { return photo; }
+//    @JsonProperty("photo")
+//    public void setPhoto(Photo value) { this.photo = value; }
 
     @JsonProperty("tag_id")
     public String getTagID() { return tagID; }
@@ -194,7 +194,7 @@ public class FoodDetails {
                 ", source=" + source +
                 ", ndbNo=" + ndbNo +
                 ", mealType=" + mealType +
-                ", photo=" + photo +
+//                ", photo=" + photo +
                 ", tagID='" + tagID + '\'' +
                 '}';
     }

@@ -11,21 +11,22 @@ import java.util.Map;
 public class DataService {
     Map<String, User> users = new HashMap<>();
 
-    public void addUser(User newUser){
-        users.put(newUser.getEmail(),newUser);
+    public void addUser(User newUser) {
+        users.put(newUser.getEmail(), newUser);
     }
 
-    public User getUser(String email){
+    public User getUser(String email) {
         return users.get(email);
     }
 
-    public List<Exercise> getDailyExercises(String email){
-        List<Exercise> exercises = users.get(email).getExercises();
-        exercises.stream().filter(exercise -> {exercise.getLocalDateTime().})
+    public List<Exercise> getDailyExercises(String email) {
+//        List<Exercise> exercises = users.get(email).getExercises();
+//        exercises.stream().filter(exercise -> {exercise.getLocalDateTime().isAfter()})
+        return null;
     }
 
-    public List<FoodDetails> getFoods(){
-
+    public List<FoodDetails> getFoods() {
+        return null;
     }
 
 }

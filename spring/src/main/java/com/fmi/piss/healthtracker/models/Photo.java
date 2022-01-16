@@ -2,7 +2,14 @@ package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "photo")
 public class Photo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
     private String thumb;
     private String highres;
     private boolean isUserUploaded;

@@ -1,24 +1,22 @@
 package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 
-//@Entity
-//@Table(name="USER")
+@Entity
+@Table(name="user")
 public class User {
-
-  //  @Id
-  //  @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long ID;
-    private List<Exercise> exercises;
-    private List<FoodDetails> foods;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Exercise> exercises;
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<FoodDetails> foods;
     private String firstName;
     private String lastName;
     private String email;
@@ -30,19 +28,19 @@ public class User {
     private double weight;
     private double age;
 
-    public List<Exercise> getExercises() {
+    public Set<Exercise> getExercises() {
         return exercises;
     }
 
-    public void setExercises(List<Exercise> exercises) {
+    public void setExercises(Set<Exercise> exercises) {
         this.exercises = exercises;
     }
 
-    public List<FoodDetails> getFoods() {
+    public Set<FoodDetails> getFoods() {
         return foods;
     }
 
-    public void setFoods(List<FoodDetails> foods) {
+    public void setFoods(Set<FoodDetails> foods) {
         this.foods = foods;
     }
 
@@ -108,5 +106,21 @@ public class User {
 
     public void setAge(double age) {
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID=" + ID +
+                ", foods=" + foods +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", gender=" + gender +
+                ", height=" + height +
+                ", weight=" + weight +
+                ", age=" + age +
+                '}';
     }
 }
