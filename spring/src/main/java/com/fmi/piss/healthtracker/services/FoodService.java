@@ -98,8 +98,10 @@ public class FoodService {
 
         System.out.println(body);
 
-        User user = new User("Vicotria","Lazarova","viki@gmail.com","pass");
-        userRepository.save(user);
+       // User user = new User("Vicotria","Lazarova","viki@gmail.com","pass");
+       // user.setWeight(55);
+       // userRepository.save(user);
+
         for (User checkUser : userRepository.findAll()) {
             System.out.println(checkUser);
         }

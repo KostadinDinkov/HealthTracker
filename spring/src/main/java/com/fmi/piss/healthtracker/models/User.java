@@ -11,10 +11,13 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
+    public User(){
+
+    }
     public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.email =  email;
         this.password = password;
     }
 
@@ -22,29 +25,30 @@ public class User {
     // @GeneratedValue(strategy = GenerationType.AUTO)
     //private long ID;
     @OneToMany(fetch = FetchType.EAGER)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Set<Exercise> exercises;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Set<FoodDetails> foods;
 
     private String firstName;
     private String lastName;
 
     @Id
+    @Column(length = 100)
     private String email;
 
     private String password;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Gender gender;
     @JsonProperty("height_cm")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double height;
     @JsonProperty("weight_kg")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double weight;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double age;
 
     public Set<Exercise> getExercises() {
@@ -55,12 +59,19 @@ public class User {
         this.exercises = exercises;
     }
 
+    public void addExercise(Exercise exercise){
+        exercises.add(exercise);
+    }
     public Set<FoodDetails> getFoods() {
         return foods;
     }
 
     public void setFoods(Set<FoodDetails> foods) {
         this.foods = foods;
+    }
+
+    public void addFood(FoodDetails foodDetails){
+        foods.add(foodDetails);
     }
 
     public String getFirstName() {

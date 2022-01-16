@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name="exercise")
+@Table(name = "exercise")
 public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -128,13 +128,13 @@ public class Exercise {
     }
 
 
-//    public LocalDateTime getLocalDateTime() {
-//        return localDateTime;
-//    }
-//
-//    public void setLocalDateTime() {
-//        this.localDateTime = LocalDateTime.now();
-//    }
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime() {
+        this.localDateTime = LocalDateTime.now();
+    }
 
     @Override
     public String toString() {
