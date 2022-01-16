@@ -1,6 +1,7 @@
 package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,24 +9,42 @@ import java.util.Set;
 
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long ID;
+    public User(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
+    //@Id
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    //private long ID;
     @OneToMany(fetch = FetchType.EAGER)
+    @Column(nullable = false)
     private Set<Exercise> exercises;
+
     @OneToMany(fetch = FetchType.EAGER)
+    @Column(nullable = false)
     private Set<FoodDetails> foods;
+
     private String firstName;
     private String lastName;
+
+    @Id
     private String email;
+
     private String password;
+    @Column(nullable = false)
     private Gender gender;
     @JsonProperty("height_cm")
+    @Column(nullable = false)
     private double height;
     @JsonProperty("weight_kg")
+    @Column(nullable = false)
     private double weight;
+    @Column(nullable = false)
     private double age;
 
     public Set<Exercise> getExercises() {
@@ -111,7 +130,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "ID=" + ID +
+                //  "ID=" + ID +
                 ", foods=" + foods +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
