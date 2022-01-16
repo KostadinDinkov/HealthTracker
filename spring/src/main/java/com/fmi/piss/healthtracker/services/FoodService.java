@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,12 +52,25 @@ public class FoodService {
         ResponseEntity<FoodResponse> response = new RestTemplate().exchange(
                 uri.toUriString(), HttpMethod.POST, http, FoodResponse.class);
 
-//        Exercise body = new JsonMapper().convertValue(response.getBody().get("exercises").get(0), Exercise.class);
+        //Exercise body = new JsonMapper().convertValue(response.getBody().get("exercises").get(0), Exercise.class);
 
         FoodResponse body = response.getBody();
         System.out.println(body);
+        List<Food> matchedFoods = new ArrayList<>();
 
-        return null;
+        //add food from all three categories
+
+        if (body.getBranded() != null) {
+            matchedFoods.addAll(Arrays.asList(body.getBranded()));
+        }
+
+        if (body.getCommon() != null) {
+            matchedFoods.addAll(Arrays.asList(body.getCommon()));
+        }
+        if(body.getSelf() !=null) {
+            matchedFoods.addAll(Arrays.asList(body.getSelf()));
+        }
+        return matchedFoods;
     }
 
     public FoodDetails getDetails(String search) {

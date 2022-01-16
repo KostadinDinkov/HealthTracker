@@ -13,10 +13,8 @@ public class Exercise {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-
-//    //the time of adding the exercise
-//    private LocalDateTime localDateTime;
-
+    //the time of adding the exercise
+    private LocalDateTime localDateTime;
     private long tagID;
     private String userInput;
     private double durationMin;

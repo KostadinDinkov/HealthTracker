@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fmi.piss.healthtracker.models.Exercise;
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -11,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class ExerciseService {
     private final String BASE_URL = "https://trackapi.nutritionix.com/v2/";
     private final String X_APP_ID = "4467daa7";
@@ -41,6 +43,6 @@ public class ExerciseService {
 
         System.out.println(body);
 
-        return null;
+        return body;
     }
 }
