@@ -2,7 +2,11 @@ package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="food_details")
@@ -166,6 +170,14 @@ public class FoodDetails {
     public String getTagID() { return tagID; }
     @JsonProperty("tag_id")
     public void setTagID(String value) { this.tagID = value; }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime() {
+        this.localDateTime = LocalDateTime.now();
+    }
 
     @Override
     public String toString() {

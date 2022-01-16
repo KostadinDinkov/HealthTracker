@@ -23,10 +23,16 @@ public class FoodController {
     }
 
     @CrossOrigin
-    @PostMapping()
+    @PostMapping("/item")
     private FoodDetails getFoodDetails(@RequestBody String foodName){
         return foodService.getDetails(foodName);
     }
 
+    @CrossOrigin
+    @PostMapping()
+    private void foodAdded(@RequestBody FoodDetails foodDetails){
+        foodDetails.setLocalDateTime(); // it is eaten now
+        //add to DB
 
+    }
 }
