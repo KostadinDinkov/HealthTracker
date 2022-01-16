@@ -12,13 +12,14 @@ import java.time.LocalTime;
 public class Exercise {
 
   //  @ManyToOne(fetch = FetchType.LAZY)
-  // @JoinColumn(name = "user_id")
-  //  private User user;
+  //  @JoinColumn(name = "user_id")
+    private User user;
 
 
     //the time of adding the exercise
     private LocalDateTime localDateTime ;
 
+   // @Id
     private long tagID;
     private String userInput;
     private double durationMin;
