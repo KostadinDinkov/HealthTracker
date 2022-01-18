@@ -47,11 +47,6 @@ class TopBar extends Component{
         return(
             <div className="top_bar_container">
         <NavLink to='/home' className="menu_button"><FontAwesomeIcon className="icon" icon={faHome}/> Home</NavLink>
-        
-        <form id="search_container">
-            <input type="text" placeholder="Search" id="search_bar"/>
-            <button id="search_button" ><FontAwesomeIcon className="icon" icon={faSearch} /></button>
-        </form>
         {account}
     </div>
         );

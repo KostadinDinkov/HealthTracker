@@ -79,6 +79,38 @@
   height: 5rem;
   background-color: rgb(27, 27, 27);
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
+.suggestion-container{
+  width: 100%;
+}
+.suggestions{
+  display: none;
+  position: absolute;
+  flex-direction: column;
+    background-color: #f1f1f1;
+    max-height: 30ch;
+    overflow: scroll;
+}
+
+.suggestion {
+  color: black;
+  padding: 1rem 1.2rem;
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+  display: block;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background-color: #cecece;
+
+}
+
+.food-info{
+  display: flex;
+  flex-direction: column;
+}

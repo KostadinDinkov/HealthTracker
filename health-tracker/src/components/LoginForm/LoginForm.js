@@ -6,12 +6,12 @@ import React from 'react';
 class LoginForm extends React.Component{
     constructor(props){
         super(props);
-        this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword= this.onChangePassword.bind(this);
         this.onChangeResult= this.onChangeResult.bind(this);
         this.onSubmit = this.onSubmit.bind(this)
         this.state = {
-            name:'',
+            email:'',
             password:'',
             result:''
         };
@@ -20,8 +20,8 @@ class LoginForm extends React.Component{
         this.props.history.push("/home");
         window.location.reload();
       };
-    onChangeName(e) {
-        this.setState({ name: e.target.value })
+    onChangeEmail(e) {
+        this.setState({ email: e.target.value })
     }
 
     onChangePassword(e) {
@@ -33,20 +33,18 @@ class LoginForm extends React.Component{
     onSubmit(e) {
         e.preventDefault()
         var user={};
-        user["username"]=this.state.name;
+        user["email"]=this.state.email;
         user["password"]=this.state.password;
         var isError=0;
-        if(this.state.name.length===0){
-            document.getElementById('username-error').innerHTML="Required Field";
-            document.getElementById('username-error').style.display="flex";
-            isError=1;
-        }else if(this.state.name.length>20){
-            document.getElementById('username-error').innerHTML="Username is too long. Max Length is 20 characters";
-            document.getElementById('username-error').style.display="flex";
+        var email_reg=/^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
+
+        if(email_reg.test(this.state.email)===false){
+            document.getElementById('email-error').innerHTML="Invalid email";
+            document.getElementById('email-error').style.display="flex";
             isError=1;
         }
         else{
-            document.getElementById('username-error').style.display="none";
+            document.getElementById('email-error').style.display="none";
         }
 
 
@@ -72,13 +70,17 @@ class LoginForm extends React.Component{
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user) 
         };
-        fetch('/api/login', requestOptions)
+        fetch('/users/login', requestOptions)
             .then(res => res.json()).then(result=>this.setState({result},() => 
             {console.log('result fetched...', result);
             if(result.msg==='Login is successful'){
                 localStorage.setItem('loggedIn',true)
                 localStorage.setItem('user',JSON.stringify(result.user));
                 this.handleClick();
+            }
+            else{
+                document.getElementById('email-error').innerHTML="Login Unsuccessful. Email or Password incorrect.";
+            document.getElementById('email-error').style.display="flex";
             }
         }
             )).catch(error=>{console.error(error)})           
@@ -91,9 +93,9 @@ class LoginForm extends React.Component{
         return (
     <div className="LoginForm">
         <h1 className="headers">Login</h1>
-        <span className="field-name">User Name</span>
-        <input className="field-input" id="username" type="text" value={this.state.name} onChange={this.onChangeName}></input>
-        <span id="username-error" className="error"></span>
+        <span className="field-name">Email</span>
+        <input className="field-input" id="email" type="text" value={this.state.email} onChange={this.onChangeEmail}></input>
+        <span id="email-error" className="error"></span>
         <span className="field-name">Password</span>
         <input id="password" className="field-input" type="password" value={this.state.password} onChange={this.onChangePassword}></input>
         <span id="password-error" className="error"></span>
