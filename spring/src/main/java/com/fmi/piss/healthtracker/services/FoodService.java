@@ -28,7 +28,7 @@ public class FoodService {
     public FoodService(UserRepository userRepository) {
         this.userRepository = userRepository;
         System.out.println("Bean");
-        this.getDetails("2 large eggs");
+        this.getDetails("\"2 large eggs\"");
     }
 
     public List<Food> lookup(String search) {
@@ -39,7 +39,7 @@ public class FoodService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         var requestBody = "{\n" +
-                "\"query\": \" " + search + "\"\n" +
+                "\"query\":  " + search + "\n" +
                 "}";
 
         System.out.println(requestBody);
@@ -81,7 +81,7 @@ public class FoodService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         var requestBody = "{\n" +
-                "\"query\": \" " + search + "\"\n" +
+                "\"query\":  " + search + "\n" +
                 "}";
 
         System.out.println(requestBody);

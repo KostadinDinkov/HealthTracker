@@ -26,7 +26,7 @@ public class ExerciseService {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
         var requestBody = "{\n" +
-                "\"query\": \" " + search + "\"\n" +
+                "\"query\":  " + search + "\n" +
                 "}";
 
         System.out.println(requestBody);

@@ -23,7 +23,6 @@ public class FoodController {
     public FoodController(FoodService foodService, UserRepository userRepository) {
         this.foodService = foodService;
         this.userRepository = userRepository;
-
     }
 
     @CrossOrigin
