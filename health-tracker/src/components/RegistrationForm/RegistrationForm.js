@@ -159,7 +159,7 @@ class RegistrationForm extends React.Component{
             {console.log('result fetched...', result);
             if(result.msg==='OK'){
                 localStorage.setItem('loggedIn',true)
-                localStorage.setItem('user',user);
+                localStorage.setItem('email',email);
                 this.handleClick();
             }
             else if(result.msg==='User already exists'){
