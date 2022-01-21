@@ -21,6 +21,7 @@ public class ProfileController {
 
     @PostMapping("/register")
     private String registerUser(@RequestBody User user){
+        System.out.println(user);
         if(userService.userExists(user)){
             return "User already exists.";
         }

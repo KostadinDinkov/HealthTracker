@@ -32,7 +32,9 @@ public class User {
     @Column(nullable = true)
     private Set<FoodDetails> foods;
 
+    @JsonProperty("first_name")
     private String firstName;
+    @JsonProperty("last_name")
     private String lastName;
 
     @Id
@@ -42,10 +44,10 @@ public class User {
     private String password;
     @Column(nullable = true)
     private Gender gender;
-    @JsonProperty("height_cm")
+    @JsonProperty("height")
     @Column(nullable = true)
     private double height;
-    @JsonProperty("weight_kg")
+    @JsonProperty("weight")
     @Column(nullable = true)
     private double weight;
     @Column(nullable = true)
