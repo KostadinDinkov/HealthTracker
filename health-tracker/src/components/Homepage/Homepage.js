@@ -31,6 +31,9 @@ class Homepage extends React.Component {
       foods_list:[],
       exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
       caloric_balance:0,
+      proteins:0,
+      carbs:0,
+      fats:0,
       email:'',
       loggedIn:false
     }
@@ -55,10 +58,16 @@ class Homepage extends React.Component {
     .then(res => 
       {
         var balance = this.state.caloric_balance
+        var proteins = this.state.proteins
+        var carbs = this.state.carbs
+        var fats = this.state.fats
+
         var list = []
         for(const item of res){
           balance +=  parseFloat(item["nf_calories"])
-
+          proteins += parseFloat(item["nf_protein"])
+          carbs += parseFloat(item["nf_total_carbohydrate"])
+          fats += parseFloat(item["nf_total_fat"])
           list.push(
             <tr className="food-row" name={item["food_name"]} onClick={this.onPickSuggestion}>
           <td>
@@ -67,13 +76,24 @@ class Homepage extends React.Component {
           <td>
             {item["nf_calories"]}
           </td>
+          <td>
+            {item["nf_protein"]}
+          </td>
+          <td>
+            {item["nf_total_carbohydrate"]}
+          </td>
+          <td>
+            {item["nf_total_fat"]}
+          </td>
         </tr>
           )
         }
 
         this.setState({foods_list : list});
         this.setState({caloric_balance: balance})
-
+        this.setState({proteins:proteins})
+        this.setState({carbs:carbs})
+        this.setState({fats:fats})
       }
       )
     .catch(error=>{console.error(error)})
@@ -162,18 +182,37 @@ class Homepage extends React.Component {
   addFood(){
       var updated_foods_list = [...this.state.foods_list]
       updated_foods_list.push(
-        <tr className="food-row" name={document.getElementById('food-name').getAttribute('val')} onClick={this.onPickSuggestion}>
+        <tr className="food-row" name={this.state.food_details["food_name"]} onClick={this.onPickSuggestion}>
           <td>
-            {document.getElementById('food-name').getAttribute('val')}
+            {this.state.food_details["food_name"]}
           </td>
           <td>
-            {document.getElementById('food-calories').getAttribute('val')}
+            {this.state.food_details["nf_calories"]}
+          </td>
+          <td>
+            {this.state.food_details["nf_protein"]}
+          </td>
+          <td>
+            {this.state.food_details["nf_total_carbohydrate"]}
+          </td>
+          <td>
+            {this.state.food_details["nf_total_fat"]}
           </td>
         </tr>
       )
       var balance = this.state.caloric_balance
-      balance +=  parseFloat(document.getElementById('food-calories').getAttribute('val'))
+      var proteins = this.state.proteins
+      var carbs = this.state.carbs
+      var fats = this.state.fats
+
+      balance +=  parseFloat(this.state.food_details["nf_calories"])
+      proteins += parseFloat(this.state.food_details["nf_protein"])
+      carbs += parseFloat(this.state.food_details["nf_total_carbohydrate"])
+      fats += parseFloat(this.state.food_details["nf_total_fat"])
       this.setState({caloric_balance: balance})
+      this.setState({proteins:proteins})
+      this.setState({carbs:carbs})
+      this.setState({fats:fats})
       this.setState({foods_list:updated_foods_list})
 
       if(this.state.loggedIn === true){
@@ -415,7 +454,13 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="Homepage">
-        <span className="caloric-balance">Calorie Balance: {this.state.caloric_balance}</span>
+        <span className="caloric-balance">Calorie Balance: {this.state.caloric_balance.toFixed(2)}</span>
+        <span className="caloric-balance">Proteins: {this.state.proteins.toFixed(2)}</span>
+        <span className="caloric-balance">Carbs: {this.state.carbs.toFixed(2)}</span>
+        <span className="caloric-balance">Fats: {this.state.fats.toFixed(2)}</span>
+
+
+
         <div className="exercises">
           <div className="exercise-header">
             <div className="header-title">
@@ -476,6 +521,15 @@ class Homepage extends React.Component {
                 </th>
                 <th>
                   Calories
+                </th>
+                <th>
+                  Proteins
+                </th>
+                <th>
+                  Carbs
+                </th>
+                <th>
+                  Fats
                 </th>
               </tr>
               {this.state.foods_list}
