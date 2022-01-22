@@ -69,7 +69,7 @@ class Homepage extends React.Component {
           carbs += parseFloat(item["nf_total_carbohydrate"])
           fats += parseFloat(item["nf_total_fat"])
           list.push(
-            <tr className="food-row" name={item["food_name"]} onClick={this.onPickSuggestion}>
+            <tr className="food-row" name={item["serving_qty"]+" "+item["serving_unit"]+" "+item["food_name"]} onClick={this.onPickSuggestion}>
           <td>
             {item["food_name"]}
           </td>
@@ -84,6 +84,12 @@ class Homepage extends React.Component {
           </td>
           <td>
             {item["nf_total_fat"]}
+          </td>
+          <td>
+            {item["serving_unit"]}
+          </td>
+          <td>
+            {item["serving_qty"]}
           </td>
         </tr>
           )
@@ -108,9 +114,12 @@ class Homepage extends React.Component {
           balance -=  parseFloat(item["nf_calories"])
 
           list.push(
-            <tr className="exercise-row" name={item["name"]} onClick={this.onGetExerciseDetails}>
+            <tr className="exercise-row" name={item["duration_min"]+" min " + item["name"]} onClick={this.onGetExerciseDetails}>
         <td>
           {item["name"]}
+        </td>
+        <td>
+         {item["duration_min"]}
         </td>
         <td>
           {item["nf_calories"]}
@@ -182,7 +191,7 @@ class Homepage extends React.Component {
   addFood(){
       var updated_foods_list = [...this.state.foods_list]
       updated_foods_list.push(
-        <tr className="food-row" name={this.state.food_details["food_name"]} onClick={this.onPickSuggestion}>
+        <tr className="food-row" name={this.state.food_details["serving_qty"] + " " + this.state.food_details["serving_unit"]+" "+this.state.food_details["food_name"]} onClick={this.onPickSuggestion}>
           <td>
             {this.state.food_details["food_name"]}
           </td>
@@ -197,6 +206,12 @@ class Homepage extends React.Component {
           </td>
           <td>
             {this.state.food_details["nf_total_fat"]}
+          </td>
+          <td>
+            {this.state.food_details["serving_unit"]}
+          </td>
+          <td>
+            {this.state.food_details["serving_qty"]}
           </td>
         </tr>
       )
@@ -241,17 +256,20 @@ class Homepage extends React.Component {
   addExercise(){
     var updated_exercise_list = [...this.state.exercise_list]
     updated_exercise_list.push(
-      <tr className="exercise-row" name={document.getElementById('exercise-name').getAttribute('val')} onClick={this.onGetExerciseDetails}>
+      <tr className="exercise-row" name={this.state.exercise_details["duration_min"]+" min " + this.state.exercise_details["name"]} onClick={this.onGetExerciseDetails}>
         <td>
-          {document.getElementById('exercise-name').getAttribute('val')}
+          {this.state.exercise_details["name"]}
         </td>
         <td>
-          {document.getElementById('exercise-calories').getAttribute('val')}
+         {this.state.exercise_details["duration_min"]}
+        </td>
+        <td>
+          {this.state.exercise_details["nf_calories"]}
         </td>
       </tr>
     )
     var balance = this.state.caloric_balance
-    balance -= parseFloat(document.getElementById('exercise-calories').getAttribute('val'))
+    balance -= parseFloat(this.state.exercise_details["nf_calories"])
     this.setState({caloric_balance:balance})
     this.setState({exercise_list:updated_exercise_list})
     
@@ -484,6 +502,9 @@ class Homepage extends React.Component {
                   Name
                 </th>
                 <th>
+                  Duration (Minutes)
+                </th>
+                <th>
                   Calories
                 </th>
               </tr>
@@ -530,6 +551,12 @@ class Homepage extends React.Component {
                 </th>
                 <th>
                   Fats
+                </th>
+                <th>
+                  Serving Unit
+                </th>
+                <th>
+                  Serving Quantity
                 </th>
               </tr>
               {this.state.foods_list}
