@@ -19,46 +19,63 @@ class Homepage extends React.Component {
     this.addFood = this.addFood.bind(this);
     this.discardFood = this.discardFood.bind(this);
 
-    this.state = {
-      exercise:' ',
-      food:' ',
-      food_options:' ',
-      exercise_options:' ',
-      exercise_list:[],
-      food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
-      foods_list:[],
-      exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
-      caloric_balance:0
-    }
-    if(localStorage.getItem('loggedIn')===true){
+    if(localStorage.getItem('loggedIn')==="true"){
+      this.state = {
+        exercise:' ',
+        food:' ',
+        food_details:'',
+        exercise_details:'',
+        food_options:' ',
+        exercise_options:' ',
+        exercise_list:[],
+        food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
+        foods_list:[],
+        exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
+        caloric_balance:0,
+        loggedIn:true
+      }
+
+
+      var user = {}
+      user["email"] = localStorage.getItem('email')
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type' : 'application/json'},
-        body:  {"email":localStorage.getItem('email')}
+        body:  JSON.stringify(user)
       };
 
-      fetch('/food/dailyIntake', requestOptions)
-    .then(res => res.json())
+      fetch('/food/dailyIntake', requestOptions).then(res => res.json())
     .then(res => 
       {
-        console.log(res);
-        this.setState({foods_list:res})
+        this.state.foods_list = res
 
       }
       )
     .catch(error=>{console.error(error)})
 
-    fetch('/exercise/dailyExercises', requestOptions)
-    .then(res => res.json())
+    fetch('/exercise/dailyExercises', requestOptions).then(res => res.json)
     .then(res => 
       {
-        console.log(res);
-        this.setState({exercise_list:res})
+        this.state.exercise_list = res
 
       }
       )
     .catch(error=>{console.error(error)})
 
+    }
+    else{
+      this.state = {
+        exercise:' ',
+        food:' ',
+        food_options:' ',
+        exercise_options:' ',
+        exercise_list:[],
+        food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
+        foods_list:[],
+        exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
+        caloric_balance:0,
+        loggedIn:false
+      }
 
     }
   }
@@ -95,7 +112,6 @@ class Homepage extends React.Component {
   .then(res => res.json())
   .then(res => 
     {
-      
       //console.log(res);
         item_description = 
         <div className="food-info">
@@ -110,6 +126,7 @@ class Homepage extends React.Component {
         </div>
 
       this.setState({exercise_description: item_description})
+      this.setState({exercise_details:res})
 
     }
     )
@@ -132,8 +149,29 @@ class Homepage extends React.Component {
       var balance = this.state.caloric_balance
       balance +=  parseFloat(document.getElementById('food-calories').getAttribute('val'))
       this.setState({caloric_balance: balance})
-
       this.setState({foods_list:updated_foods_list})
+
+      if(this.state.loggedIn === true){
+
+        var user = {}
+        user["email"] = localStorage.getItem('email');
+        user["foods"]=[this.state.food_details]
+  
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type' : 'application/json'},
+          body:  JSON.stringify(user)
+        };
+    
+        fetch('/food/add', requestOptions)
+        .then(res => 
+          {
+              console.log(res.statusText)
+          }
+          )
+        .catch(error=>{console.error(error)})
+  
+      }
   }
 
   addExercise(){
@@ -152,6 +190,28 @@ class Homepage extends React.Component {
     balance -= parseFloat(document.getElementById('exercise-calories').getAttribute('val'))
     this.setState({caloric_balance:balance})
     this.setState({exercise_list:updated_exercise_list})
+    
+    if(this.state.loggedIn === true){
+
+      var user = {}
+      user["email"] = localStorage.getItem('email');
+      user["exercises"]=[this.state.exercise_details]
+
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type' : 'application/json'},
+        body:  JSON.stringify(user)
+      };
+  
+      fetch('/exercise/add', requestOptions)
+      .then(res => 
+        {
+            console.log(res.statusText)
+        }
+        )
+      .catch(error=>{console.error(error)})
+
+    }
   }
 
   discardExercise(){
@@ -229,6 +289,7 @@ class Homepage extends React.Component {
         </div>
 
       this.setState({exercise_description: item_description})
+      this.setState({exercise_details:res})
 
     }
     )
@@ -272,6 +333,7 @@ class Homepage extends React.Component {
         
 
         this.setState({food_description: item_description})
+        this.setState({food_details:res})
 
       }
       )
@@ -316,6 +378,7 @@ class Homepage extends React.Component {
       
 
       this.setState({food_description: item_description})
+      this.setState({food_details:res})
 
     }
     )

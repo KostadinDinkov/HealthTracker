@@ -1,5 +1,5 @@
 import './LoginForm.css';
-import { useHistory } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import React from 'react';
 
@@ -10,14 +10,28 @@ class LoginForm extends React.Component{
         this.onChangePassword= this.onChangePassword.bind(this);
         this.onChangeResult= this.onChangeResult.bind(this);
         this.onSubmit = this.onSubmit.bind(this)
-        this.state = {
-            email:'',
-            password:'',
-            result:''
-        };
+
+        if(localStorage.getItem('loggedIn')==="true"){
+            this.state = {
+                email:'',
+                password:'',
+                result:'',
+                navigator:<Navigate replace to='/home'/>
+            };
+        }
+        else{
+            this.state = {
+                email:'',
+                password:'',
+                result:'',
+                navigator:''
+            };
+        }
     }
     handleClick = () => {
-        this.props.history.push("/home");
+        
+        var navigator = <Navigate replace to='/home'/>
+        this.setState({navigator: navigator})
         window.location.reload();
       };
     onChangeEmail(e) {
@@ -36,7 +50,8 @@ class LoginForm extends React.Component{
         user["email"]=this.state.email;
         user["password"]=this.state.password;
         var isError=0;
-        var email_reg=/^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
+        var email_reg=/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        
 
         if(email_reg.test(this.state.email)===false){
             document.getElementById('email-error').innerHTML="Invalid email";
@@ -70,12 +85,11 @@ class LoginForm extends React.Component{
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user) 
         };
-        fetch('/users/login', requestOptions)
-            .then(res => res.json()).then(result=>this.setState({result},() => 
+        fetch('/users/login', requestOptions).then(result=>this.setState({result},() => 
             {console.log('result fetched...', result);
-            if(result.msg==='Login is successful'){
+            if(result.statusText==='OK'){
                 localStorage.setItem('loggedIn',true)
-                localStorage.setItem('user',JSON.stringify(result.user));
+                localStorage.setItem('email',this.state.email);
                 this.handleClick();
             }
             else{
@@ -92,6 +106,7 @@ class LoginForm extends React.Component{
     render(){
         return (
     <div className="LoginForm">
+        {this.state.navigator}
         <h1 className="headers">Login</h1>
         <span className="field-name">Email</span>
         <input className="field-input" id="email" type="text" value={this.state.email} onChange={this.onChangeEmail}></input>

@@ -1,5 +1,5 @@
 import './RegistrationForm.css';
-import { useHistory } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 
 import React from 'react';
 
@@ -8,7 +8,7 @@ class RegistrationForm extends React.Component{
         super(props);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangeFirstName = this.onChangeFirstName.bind(this);
-        this.onChangeLastName = this.onChangeLastName.bing(this);
+        this.onChangeLastName = this.onChangeLastName.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeGender = this.onChangeGender.bind(this);
         this.onChangeBirthDate= this.onChangeBirthDate.bind(this);
@@ -16,20 +16,38 @@ class RegistrationForm extends React.Component{
         this.onChangeWeight = this.onChangeWeight.bind(this);
         this.onChangeResult= this.onChangeResult.bind(this);
         this.onSubmit = this.onSubmit.bind(this)
-        this.state = {
-            email:'',
-            first_name:'',
-            last_name:'',
-            gender:'male',
-            password:'',
-            birth_date:'',
-            weight:'',
-            height:'',
-            result:''
-        };
+        
+        if(localStorage.getItem('loggedIn')==="true"){
+            this.state = {
+                email:'',
+                first_name:'',
+                last_name:'',
+                gender:'male',
+                password:'',
+                birth_date:'',
+                weight:'',
+                height:'',
+                result:'',
+                navigator:<Navigate replace to='/home'/>
+            };
+        }
+        else{
+            this.state = {
+                email:'',
+                first_name:'',
+                last_name:'',
+                gender:'male',
+                password:'',
+                birth_date:'',
+                weight:'',
+                height:'',
+                result:'',
+                navigator:''
+            };
+        }
     }
     handleClick = () => {
-        this.props.history.push("/home");
+        window.location.reload();
       };
     onChangeEmail(e) {
         this.setState({ email: e.target.value })
@@ -62,16 +80,27 @@ class RegistrationForm extends React.Component{
     onSubmit(e) {
         e.preventDefault()
         var user={};
+        user["email"]=this.state.email;
         user["password"]=this.state.password;
         user["first_name"]=this.state.first_name;
         user["last_name"]=this.state.last_name;
-        user["gender"]=this.state.gender;
-        user["birth_date"]=this.state.birth_date;
+        
+        var gender = this.state.gender;
+        if(gender==="male")
+        {
+            user["gender"]="1";
+        }
+        else{
+            user["gender"]="0";
+        }
+        //user["gender"]=this.state.gender;
+        //user["birth_date"]=this.state.birth_date;
+        user["age"]="22";
         user["height"]=this.state.height;
         user["weight"]=this.state.weight;
         console.log(user)
-        var email_reg=/^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$/;
-        var name_reg=/^.+{,20}$/;
+        var email_reg=/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        var name_reg=/^[A-Za-z ,.'-]+$/;
         var height_reg=/^(0|[1-9]\d*)(,\d+)?$/;
         var weight_reg=/^(0|[1-9]\d*)(,\d+)?$/;
         var passwd_reg=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{,20}$/;
@@ -88,7 +117,7 @@ class RegistrationForm extends React.Component{
 
         if(name_reg.test(this.state.first_name)===false){
             document.getElementById('first-name-error').innerHTML="Invalid name";
-            document.getElementById('first-name-error').display="flex";
+            document.getElementById('first-name-error').style.display="flex";
             isError=1;
         }
         else{
@@ -97,7 +126,7 @@ class RegistrationForm extends React.Component{
 
         if(name_reg.test(this.state.last_name)===false){
             document.getElementById('last-name-error').innerHTML="Invalid name";
-            document.getElementById('last-name-error').display="flex";
+            document.getElementById('last-name-error').style.display="flex";
             isError=1;
         }
         else{
@@ -146,28 +175,29 @@ class RegistrationForm extends React.Component{
         }
 
         if(isError===1){
+            console.log("false")
             return false
         }
         else{
+        console.log(JSON.stringify(user))
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user) 
         };
-        fetch('/users/register', requestOptions)
-            .then(res => res.json()).then(result=>this.setState({result},() => 
+        fetch('users/register', requestOptions).then(result=>this.setState({result},() => 
             {console.log('result fetched...', result);
-            if(result.msg==='OK'){
+            if(result.statusText==='OK'){
                 localStorage.setItem('loggedIn',true)
-                localStorage.setItem('email',email);
+                localStorage.setItem('email',this.state.email);
                 this.handleClick();
             }
-            else if(result.msg==='User already exists'){
+            else if(result.statusText==='User already exists'){
                 document.getElementById('email-error').innerHTML="User already exists";
                 document.getElementById('email-error').style.display="flex";
             }
             else{
-                document.getElementById('email-error').innerHTML="User already exists";
+                document.getElementById('email-error').innerHTML="Error";
                 document.getElementById('email-error').style.display="flex";
             }
         }
@@ -181,7 +211,9 @@ class RegistrationForm extends React.Component{
 
     render(){
         return (
+
     <div className="RegistrationForm">
+        {this.state.navigator}
         <h1 className="headers">Create Account</h1>
         <span className="field-name">Email</span>
         <input className="field-input" id="email" type="text" value={this.state.email} onChange={this.onChangeEmail}></input>
@@ -217,7 +249,6 @@ class RegistrationForm extends React.Component{
         <input className="field-input" id="weight" type="number" min="0" value={this.state.weight} onChange={this.onChangeWeight}></input>
         <span id="weight-error" className="error"></span>
         <button className="submit-btn" onClick={this.onSubmit}>Submit</button>
-        
     </div>
   );
 }
