@@ -22,7 +22,7 @@
     left: 0%;
     justify-content: center;
     align-items: center;
-    background-color: black
+    background-color: rgb(87, 187, 157)
   }
   .menu_button{
     display: inline-flex;
@@ -35,7 +35,6 @@
     border: none;
     color: white;
     text-decoration: none;
-    background-color: black
   }
    .icon{
       margin-right: 6%;

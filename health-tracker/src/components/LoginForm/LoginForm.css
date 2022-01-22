@@ -1,10 +1,22 @@
 .LoginForm{
-    width: 30%;
-    margin-left: 30%;
+    width:30%;
+    margin-top:10%;
+    margin-left: 35%;
+    margin-right:30%;
+    padding:30px;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
+    color:rgb(77, 75, 75);
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+
 }
+
+.LoginForm *{
+margin-bottom: 10px;
+}
+
 .LoginForm .header{
     font-size:3rem;
 }
@@ -16,16 +28,22 @@
 }
 .LoginForm .field-input{
     font-size:1.6rem;
+    border-radius: 10px;
+    border:1px rgb(233, 223, 223) solid;
 }
 .LoginForm .submit-btn{
     font-size:2rem;
     color: white;
-    background-color: black;
+    background-color:  rgb(87, 187, 157);
+    margin-top:10px;
+    border-radius: 10px;
+    border:none;
 }
 .LoginForm #profile-pic #file-upload-button{
     font-size:1.6rem;
     color: white;
     background-color: black;
+
 }
 .LoginForm .error{
     display: none;

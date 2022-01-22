@@ -1,12 +1,23 @@
 .RegistrationForm{
+    margin-top:8%;
     width: 30%;
-    margin-left: 30%;
+    margin-left: 35%;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     flex-direction: column;
+    color:rgb(77, 75, 75);    
+    padding:20px;
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
 }
+
+.RegistrationForm *{
+    margin-bottom: 5px;
+}
+
 .RegistrationForm .header{
     font-size:3rem;
+    margin-bottom:5px;
 }
 .RegistrationForm .field-name{
     font-size:2rem;
@@ -16,11 +27,16 @@
 }
 .RegistrationForm .field-input{
     font-size:1.6rem;
+    border-radius: 10px;
+    border:1px rgb(233, 223, 223) solid;
 }
 .RegistrationForm .submit-btn{
     font-size:2rem;
     color: white;
-    background-color: black;
+    background-color:  rgb(87, 187, 157);
+    border-radius: 10px;
+    margin-top: 10px;
+    border:none;
 }
 .RegistrationForm #profile-pic #file-upload-button{
     font-size:1.6rem;
