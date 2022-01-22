@@ -37,7 +37,7 @@ public class UserService {
         }
         User existingUser = userRepository.findById(user.getEmail()).get();
         existingUser.setWeight(user.getWeight());
-        existingUser.setAge(user.getAge());
+        existingUser.setBirthDate(user.getBirthDate());
         existingUser.setGender(user.getGender());
         existingUser.setHeight(user.getHeight());
         existingUser.setFirstName(user.getFirstName());

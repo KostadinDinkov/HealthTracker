@@ -1,10 +1,10 @@
 package com.fmi.piss.healthtracker.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Set;
 
 
@@ -52,6 +52,8 @@ public class User {
     private double weight;
     @Column(nullable = true)
     private double age;
+
+    private LocalDate birthDate;
 
     public Set<Exercise> getExercises() {
         return exercises;
@@ -136,13 +138,25 @@ public class User {
         return age;
     }
 
-    public void setAge(double age) {
-        this.age = age;
+    public void setBirthDate(LocalDate birthDate){
+        this.birthDate = birthDate;
+        LocalDate today = LocalDate.now();
+        if(birthDate!=null){
+            int years = Period.between(birthDate,today).getYears();
+            this.age = years;
+            System.out.println(age + "years old");
+        }
+
     }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
 
     public User withoutPassword() {
         User result = new User();
-        result.setAge(this.getAge());
+        result.setBirthDate(this.getBirthDate());
         result.setFirstName(this.getFirstName());
         result.setGender(this.getGender());
         result.setLastName(this.getLastName());
