@@ -185,14 +185,14 @@ class RegistrationForm extends React.Component{
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user) 
         };
-        fetch('users/register', requestOptions).then(result=>this.setState({result},() => 
+        fetch('users/register', requestOptions).then(res => res.text()).then(result=>this.setState({result},() => 
             {console.log('result fetched...', result);
-            if(result.statusText==='OK'){
+            if(result ==='OK'){
                 localStorage.setItem('loggedIn',true)
                 localStorage.setItem('email',this.state.email);
                 this.handleClick();
             }
-            else if(result.statusText==='User already exists'){
+            else if(result ==='User already exists'){
                 document.getElementById('email-error').innerHTML="User already exists";
                 document.getElementById('email-error').style.display="flex";
             }
