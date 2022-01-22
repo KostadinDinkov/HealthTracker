@@ -140,6 +140,20 @@ public class User {
         this.age = age;
     }
 
+    public User withoutPassword() {
+        User result = new User();
+        result.setAge(this.getAge());
+        result.setFirstName(this.getFirstName());
+        result.setGender(this.getGender());
+        result.setLastName(this.getLastName());
+        result.setHeight(this.getHeight());
+        result.setEmail(this.getEmail());
+        result.setWeight(this.getWeight());
+        result.setExercises(this.getExercises());
+        result.setFoods(this.getFoods());
+        return result;
+    }
+
     @Override
     public String toString() {
         return "User{" +

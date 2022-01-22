@@ -14,15 +14,15 @@ public class ProfileController {
     private UserRepository userRepository;
     private UserService userService;
 
-    public ProfileController(UserRepository userRepository,UserService userService){
+    public ProfileController(UserRepository userRepository, UserService userService) {
         this.userService = userService;
         this.userRepository = userRepository;
     }
 
     @PostMapping("/register")
-    private String registerUser(@RequestBody User user){
+    private String registerUser(@RequestBody User user) {
         System.out.println(user);
-        if(userService.userExists(user)){
+        if (userService.userExists(user)) {
             return "User already exists.";
         }
         userService.registerUser(user);
@@ -30,13 +30,18 @@ public class ProfileController {
     }
 
     @PostMapping("/login")
-    private String login(@RequestBody User user){
+    private String login(@RequestBody User user) {
         return userService.userLoginSuccessful(user);
     }
 
     @PostMapping("/update")
-    private String updateUser(@RequestBody User user){
+    private String updateUser(@RequestBody User user) {
         return userService.updateUser(user);
+    }
+
+    @PostMapping("/details")
+    private User userDetails(@RequestBody User user) {
+        return userService.getUserByEmail(user.getEmail()).withoutPassword();
     }
 
 }

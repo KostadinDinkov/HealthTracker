@@ -46,5 +46,7 @@ public class UserService {
         return "Updated.";
     }
 
-
+    public User getUserByEmail(String email) {
+        return userRepository.findById(email).orElse(null);
+    }
 }
