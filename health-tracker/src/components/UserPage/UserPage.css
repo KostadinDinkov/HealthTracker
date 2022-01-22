@@ -3,7 +3,7 @@
     width: 50%;
     margin-left: 25%;
 }
-.UserPage .profile{
+.UserPage .profile-tab{
     display: flex;
     flex-direction: column;
 }
@@ -19,4 +19,17 @@
 }
 .UserPage button{
     font-size: 2rem;
+}
+.UserPage #edit{
+    display: none;
+}
+.UserPage .edit-tab{
+    flex-direction: column;
+}
+.UserPage .field-name{
+    font-size:2rem;
+}
+
+.UserPage .field-input{
+    font-size:1.6rem;
 }
