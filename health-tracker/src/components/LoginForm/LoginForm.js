@@ -85,9 +85,9 @@ class LoginForm extends React.Component{
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user) 
         };
-        fetch('/users/login', requestOptions).then(result=>this.setState({result},() => 
+        fetch('/users/login', requestOptions).then(res => res.text()).then(result=>this.setState({result},() => 
             {console.log('result fetched...', result);
-            if(result.statusText==='OK'){
+            if(result==='OK'){
                 localStorage.setItem('loggedIn',true)
                 localStorage.setItem('email',this.state.email);
                 this.handleClick();
