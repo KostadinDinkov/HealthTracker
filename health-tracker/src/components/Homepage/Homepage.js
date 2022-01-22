@@ -19,23 +19,30 @@ class Homepage extends React.Component {
     this.addFood = this.addFood.bind(this);
     this.discardFood = this.discardFood.bind(this);
 
+    this.state = {
+      exercise:' ',
+      food:' ',
+      food_details:'',
+      exercise_details:'',
+      food_options:' ',
+      exercise_options:' ',
+      exercise_list:[],
+      food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
+      foods_list:[],
+      exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
+      caloric_balance:0,
+      email:'',
+      loggedIn:false
+    }
+
     if(localStorage.getItem('loggedIn')==="true"){
-      this.state = {
-        exercise:' ',
-        food:' ',
-        food_details:'',
-        exercise_details:'',
-        food_options:' ',
-        exercise_options:' ',
-        exercise_list:[],
-        food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
-        foods_list:[],
-        exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
-        caloric_balance:0,
-        loggedIn:true
-      }
+      this.state.loggedIn = true;
+      this.state.email = localStorage.getItem('email')
+    }
+  }
 
-
+  componentDidMount(){
+    if(localStorage.getItem('loggedIn')==="true"){
       var user = {}
       user["email"] = localStorage.getItem('email')
       const requestOptions = {
@@ -47,40 +54,58 @@ class Homepage extends React.Component {
       fetch('/food/dailyIntake', requestOptions).then(res => res.json())
     .then(res => 
       {
-        this.state.foods_list = res
+        var balance = this.state.caloric_balance
+        var list = []
+        for(const item of res){
+          balance +=  parseFloat(item["nf_calories"])
+
+          list.push(
+            <tr className="food-row" name={item["food_name"]} onClick={this.onPickSuggestion}>
+          <td>
+            {item["food_name"]}
+          </td>
+          <td>
+            {item["nf_calories"]}
+          </td>
+        </tr>
+          )
+        }
+
+        this.setState({foods_list : list});
+        this.setState({caloric_balance: balance})
 
       }
       )
     .catch(error=>{console.error(error)})
 
-    fetch('/exercise/dailyExercises', requestOptions).then(res => res.json)
+    fetch('/exercise/dailyExercises', requestOptions).then(res => res.json())
     .then(res => 
       {
-        this.state.exercise_list = res
+        var balance = this.state.caloric_balance
+      
+        var list = []
+        for(const item of res){
+          balance -=  parseFloat(item["nf_calories"])
+
+          list.push(
+            <tr className="exercise-row" name={item["name"]} onClick={this.onGetExerciseDetails}>
+        <td>
+          {item["name"]}
+        </td>
+        <td>
+          {item["nf_calories"]}
+        </td>
+      </tr>
+          )
+        }
+        this.setState({caloric_balance: balance})
+        this.setState({exercise_list:list});
 
       }
       )
     .catch(error=>{console.error(error)})
-
-    }
-    else{
-      this.state = {
-        exercise:' ',
-        food:' ',
-        food_options:' ',
-        exercise_options:' ',
-        exercise_list:[],
-        food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
-        foods_list:[],
-        exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
-        caloric_balance:0,
-        loggedIn:false
-      }
-
     }
   }
-
-
   
   onChangeExercise(e){
     this.setState({exercise: e.target.value})
@@ -154,7 +179,7 @@ class Homepage extends React.Component {
       if(this.state.loggedIn === true){
 
         var user = {}
-        user["email"] = localStorage.getItem('email');
+        user["email"] = this.state.email;
         user["foods"]=[this.state.food_details]
   
         const requestOptions = {
@@ -163,10 +188,10 @@ class Homepage extends React.Component {
           body:  JSON.stringify(user)
         };
     
-        fetch('/food/add', requestOptions)
+        fetch('/food/add', requestOptions).then(res => res.text())
         .then(res => 
           {
-              console.log(res.statusText)
+              console.log(res)
           }
           )
         .catch(error=>{console.error(error)})
@@ -203,10 +228,10 @@ class Homepage extends React.Component {
         body:  JSON.stringify(user)
       };
   
-      fetch('/exercise/add', requestOptions)
+      fetch('/exercise/add', requestOptions).then(res => res.text())
       .then(res => 
         {
-            console.log(res.statusText)
+            console.log(res)
         }
         )
       .catch(error=>{console.error(error)})
