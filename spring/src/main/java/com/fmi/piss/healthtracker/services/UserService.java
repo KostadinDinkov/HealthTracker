@@ -42,7 +42,7 @@ public class UserService {
         existingUser.setHeight(user.getHeight());
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
-        userRepository.save(user);
+        userRepository.save(existingUser);
         return "Updated.";
     }
 
