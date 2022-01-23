@@ -145,8 +145,11 @@ class UserPage extends React.Component {
         return (
             <div className="UserPage">
                 <div id="profile" className="profile-tab">
+                    
+                    
+                <img src="D:/test.png" id="profile-pic"></img>
                     <div className="profile-header">
-                        <span>User Profile</span>
+                        <span class="heading">User Profile</span>
                         <button onClick={this.editProfile}><FontAwesomeIcon icon={faPen}></FontAwesomeIcon></button>
                     </div>
                     <span className="username">Name: {this.state.first_name} {this.state.last_name}</span>

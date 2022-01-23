@@ -58,3 +58,15 @@
 .UserPage .field-input{
     font-size:1.6rem;
 }
+
+.heading{
+    font-size: 30;
+    font-weight:700;
+    margin-right: 10px;
+}
+
+#profile{
+    font-size: 25;   
+    margin-left:40%;
+    margin-top:10%;
+}

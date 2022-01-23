@@ -79,6 +79,15 @@
   align-items: center;
 }
 
+img{
+  margin-left: 5px;
+  margin-right:10px;
+  display: inline;
+  float: left;
+  width:65px;
+  height:65px;
+}
+
 .exercise-description{
   font-size: 1.6rem;
   min-height: 8rem;
@@ -139,6 +148,11 @@
 p{
   margin-left: 10px;
 }
+
+.food-buttons{
+  float:right;
+}
+
 .search-button{
   height: 100%;
   border: none;
@@ -188,9 +202,10 @@ p{
 
 }
 
-.food-info{
+.food-details{
   display: flex;
   flex-direction: column;
+  margin-left: 10px;
 }
 
 td,th{

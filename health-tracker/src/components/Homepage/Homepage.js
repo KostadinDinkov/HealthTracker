@@ -169,7 +169,6 @@ class Homepage extends React.Component {
       //console.log(res);
         item_description = 
         <div className="food-info">
-            <img src={res["photo"]["thumb"]} alt=""></img>
             <span id='exercise-name' val={res["name"]}>Name: {res["name"]}</span>
             <span>Duration: {res["duration_min"]} m</span>
             <span id='exercise-calories' val={res["nf_calories"]}>Calories: {res["nf_calories"]} cal</span>
@@ -394,7 +393,12 @@ class Homepage extends React.Component {
         //console.log(res);
           item_description = 
           <div className="food-info">
+              <div className="food-buttons">
+                <button onClick={this.addFood}><FontAwesomeIcon className="icon" icon={faCheck}/></button>
+                <button onClick={this.discardFood}><FontAwesomeIcon className="icon" icon={faTimes}/></button>
+              </div>
               <img src={res["photo"]["thumb"]} alt=""></img>
+             <div class = "food-details">
               <span id='food-name' val={res["food_name"]}>Name: {res["food_name"]}</span>
               <span>Serving Quantity: {res["serving_qty"]}</span>
               <span>Serving Unit: {res["serving unit"]}</span>
@@ -403,10 +407,8 @@ class Homepage extends React.Component {
               <span>Fat: {res["nf_total_fat"]} g</span>
               <span>Protein: {res["nf_protein"]} g</span>
               <span>Carbs: {res["nf_total_carbohydrate"]}</span>
-              <div className="food-buttons">
-                <button onClick={this.addFood}><FontAwesomeIcon className="icon" icon={faCheck}/></button>
-                <button onClick={this.discardFood}><FontAwesomeIcon className="icon" icon={faTimes}/></button>
               </div>
+          
           </div>     
         
 
