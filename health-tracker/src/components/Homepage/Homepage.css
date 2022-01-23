@@ -5,14 +5,31 @@
   align-items: center;
   color:rgb(77, 75, 75);
 }
+
+.balance {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border:1px solid rgb(180, 166, 166);
+  border-radius: 50%;
+  width:280px;
+  height:150px;
+}
+
+.caloric-details{
+  font-size: 1.6rem;
+}
+
 .headers{
   font-family: Arial, Helvetica, sans-serif;
   font-size: 2rem;
 }
 .caloric-balance{
-  font-size: 3rem;
+  margin-top: 10%;
+  font-size: 2rem;
 }
 .exercises{
+  margin-top: 2%;
   width: 50%;
   background-color:rgb(182, 182, 182);
 }
@@ -113,8 +130,12 @@
   width: 100%;
   border:none;
   font-size: 1.6rem;
+  
 }
 
+p{
+  margin-left: 10px;
+}
 .search-button{
   height: 100%;
   border: none;
@@ -127,10 +148,11 @@
   display: flex;
   height: 4rem;
   background-color: white;
+  
 }
 .search-field{
   height: 5rem;
-  background-color: white;
+  background-color: (182, 182, 182);
   display: flex;
   flex-direction: column;
   align-items: center;
