@@ -94,7 +94,7 @@
   flex-direction: column;
   align-items: center;
   height: 4rem;
-  background-color:  rgb(87, 187, 157);;
+  background-color:  rgb(87, 187, 157);
   color: white;
   font-size: 2rem;
 }
@@ -198,6 +198,10 @@ td,th{
   border:none
 }
 
-.exercise-row td,th{
+.exercise-row td{
+  width: 33%;
+}
+
+.exercise-table-header th{
   width: 33%;
 }
