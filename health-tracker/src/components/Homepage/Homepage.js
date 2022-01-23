@@ -19,23 +19,33 @@ class Homepage extends React.Component {
     this.addFood = this.addFood.bind(this);
     this.discardFood = this.discardFood.bind(this);
 
+    this.state = {
+      exercise:' ',
+      food:' ',
+      food_details:'',
+      exercise_details:'',
+      food_options:' ',
+      exercise_options:' ',
+      exercise_list:[],
+      food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
+      foods_list:[],
+      exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
+      caloric_balance:0,
+      proteins:0,
+      carbs:0,
+      fats:0,
+      email:'',
+      loggedIn:false
+    }
+
     if(localStorage.getItem('loggedIn')==="true"){
-      this.state = {
-        exercise:' ',
-        food:' ',
-        food_details:'',
-        exercise_details:'',
-        food_options:' ',
-        exercise_options:' ',
-        exercise_list:[],
-        food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
-        foods_list:[],
-        exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
-        caloric_balance:0,
-        loggedIn:true
-      }
+      this.state.loggedIn = true;
+      this.state.email = localStorage.getItem('email')
+    }
+  }
 
-
+  componentDidMount(){
+    if(localStorage.getItem('loggedIn')==="true"){
       var user = {}
       user["email"] = localStorage.getItem('email')
       const requestOptions = {
@@ -47,40 +57,84 @@ class Homepage extends React.Component {
       fetch('/food/dailyIntake', requestOptions).then(res => res.json())
     .then(res => 
       {
-        this.state.foods_list = res
+        var balance = this.state.caloric_balance
+        var proteins = this.state.proteins
+        var carbs = this.state.carbs
+        var fats = this.state.fats
 
+        var list = []
+        for(const item of res){
+          balance +=  parseFloat(item["nf_calories"])
+          proteins += parseFloat(item["nf_protein"])
+          carbs += parseFloat(item["nf_total_carbohydrate"])
+          fats += parseFloat(item["nf_total_fat"])
+          list.push(
+            <tr className="food-row" name={item["serving_qty"]+" "+item["serving_unit"]+" "+item["food_name"]} onClick={this.onPickSuggestion}>
+          <td>
+            {item["food_name"]}
+          </td>
+          <td>
+            {item["nf_calories"]}
+          </td>
+          <td>
+            {item["nf_protein"]}
+          </td>
+          <td>
+            {item["nf_total_carbohydrate"]}
+          </td>
+          <td>
+            {item["nf_total_fat"]}
+          </td>
+          <td>
+            {item["serving_unit"]}
+          </td>
+          <td>
+            {item["serving_qty"]}
+          </td>
+        </tr>
+          )
+        }
+
+        this.setState({foods_list : list});
+        this.setState({caloric_balance: balance})
+        this.setState({proteins:proteins})
+        this.setState({carbs:carbs})
+        this.setState({fats:fats})
       }
       )
     .catch(error=>{console.error(error)})
 
-    fetch('/exercise/dailyExercises', requestOptions).then(res => res.json)
+    fetch('/exercise/dailyExercises', requestOptions).then(res => res.json())
     .then(res => 
       {
-        this.state.exercise_list = res
+        var balance = this.state.caloric_balance
+      
+        var list = []
+        for(const item of res){
+          balance -=  parseFloat(item["nf_calories"])
+
+          list.push(
+            <tr className="exercise-row" name={item["duration_min"]+" min " + item["name"]} onClick={this.onGetExerciseDetails}>
+        <td>
+          {item["name"]}
+        </td>
+        <td>
+         {item["duration_min"]}
+        </td>
+        <td>
+          {item["nf_calories"]}
+        </td>
+      </tr>
+          )
+        }
+        this.setState({caloric_balance: balance})
+        this.setState({exercise_list:list});
 
       }
       )
     .catch(error=>{console.error(error)})
-
-    }
-    else{
-      this.state = {
-        exercise:' ',
-        food:' ',
-        food_options:' ',
-        exercise_options:' ',
-        exercise_list:[],
-        food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
-        foods_list:[],
-        exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
-        caloric_balance:0,
-        loggedIn:false
-      }
-
     }
   }
-
-
   
   onChangeExercise(e){
     this.setState({exercise: e.target.value})
@@ -137,24 +191,45 @@ class Homepage extends React.Component {
   addFood(){
       var updated_foods_list = [...this.state.foods_list]
       updated_foods_list.push(
-        <tr className="food-row" name={document.getElementById('food-name').getAttribute('val')} onClick={this.onPickSuggestion}>
+        <tr className="food-row" name={this.state.food_details["serving_qty"] + " " + this.state.food_details["serving_unit"]+" "+this.state.food_details["food_name"]} onClick={this.onPickSuggestion}>
+          <td>{this.state.food_details["food_name"]} </td>
+          <td>{this.state.food_details["nf_calories"]}</td>
           <td>
-            {document.getElementById('food-name').getAttribute('val')}
+            {this.state.food_details["nf_protein"]}
           </td>
           <td>
-            {document.getElementById('food-calories').getAttribute('val')}
+            {this.state.food_details["nf_total_carbohydrate"]}
+          </td>
+          <td>
+            {this.state.food_details["nf_total_fat"]}
+          </td>
+          <td>
+            {this.state.food_details["serving_unit"]}
+          </td>
+          <td>
+            {this.state.food_details["serving_qty"]}
           </td>
         </tr>
       )
       var balance = this.state.caloric_balance
-      balance +=  parseFloat(document.getElementById('food-calories').getAttribute('val'))
+      var proteins = this.state.proteins
+      var carbs = this.state.carbs
+      var fats = this.state.fats
+
+      balance +=  parseFloat(this.state.food_details["nf_calories"])
+      proteins += parseFloat(this.state.food_details["nf_protein"])
+      carbs += parseFloat(this.state.food_details["nf_total_carbohydrate"])
+      fats += parseFloat(this.state.food_details["nf_total_fat"])
       this.setState({caloric_balance: balance})
+      this.setState({proteins:proteins})
+      this.setState({carbs:carbs})
+      this.setState({fats:fats})
       this.setState({foods_list:updated_foods_list})
 
       if(this.state.loggedIn === true){
 
         var user = {}
-        user["email"] = localStorage.getItem('email');
+        user["email"] = this.state.email;
         user["foods"]=[this.state.food_details]
   
         const requestOptions = {
@@ -163,10 +238,10 @@ class Homepage extends React.Component {
           body:  JSON.stringify(user)
         };
     
-        fetch('/food/add', requestOptions)
+        fetch('/food/add', requestOptions).then(res => res.text())
         .then(res => 
           {
-              console.log(res.statusText)
+              console.log(res)
           }
           )
         .catch(error=>{console.error(error)})
@@ -177,17 +252,20 @@ class Homepage extends React.Component {
   addExercise(){
     var updated_exercise_list = [...this.state.exercise_list]
     updated_exercise_list.push(
-      <tr className="exercise-row" name={document.getElementById('exercise-name').getAttribute('val')} onClick={this.onGetExerciseDetails}>
+      <tr className="exercise-row" name={this.state.exercise_details["duration_min"]+" min " + this.state.exercise_details["name"]} onClick={this.onGetExerciseDetails}>
         <td>
-          {document.getElementById('exercise-name').getAttribute('val')}
+          {this.state.exercise_details["name"]}
         </td>
         <td>
-          {document.getElementById('exercise-calories').getAttribute('val')}
+         {this.state.exercise_details["duration_min"]}
+        </td>
+        <td>
+          {this.state.exercise_details["nf_calories"]}
         </td>
       </tr>
     )
     var balance = this.state.caloric_balance
-    balance -= parseFloat(document.getElementById('exercise-calories').getAttribute('val'))
+    balance -= parseFloat(this.state.exercise_details["nf_calories"])
     this.setState({caloric_balance:balance})
     this.setState({exercise_list:updated_exercise_list})
     
@@ -203,10 +281,10 @@ class Homepage extends React.Component {
         body:  JSON.stringify(user)
       };
   
-      fetch('/exercise/add', requestOptions)
+      fetch('/exercise/add', requestOptions).then(res => res.text())
       .then(res => 
         {
-            console.log(res.statusText)
+            console.log(res)
         }
         )
       .catch(error=>{console.error(error)})
@@ -390,8 +468,10 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="Homepage">
-        <span className="caloric-balance">Calorie Balance: {this.state.caloric_balance}</span>
-      
+        <span className="caloric-balance">Calorie Balance: {this.state.caloric_balance.toFixed(2)}</span>
+        <span className="caloric-balance">Proteins: {this.state.proteins.toFixed(2)}</span>
+        <span className="caloric-balance">Carbs: {this.state.carbs.toFixed(2)}</span>
+        <span className="caloric-balance">Fats: {this.state.fats.toFixed(2)}</span>
         <div className="exercises">
           <div className="exercise-header">
             <div className="header-title">
@@ -413,6 +493,9 @@ class Homepage extends React.Component {
               <tr className="exercise-table-header">
                 <th>
                   Name
+                </th>
+                <th>
+                  Duration (Minutes)
                 </th>
                 <th>
                   Calories
@@ -447,12 +530,13 @@ class Homepage extends React.Component {
 
           <table className="foods-list">
               <tr className="food-header">
-                <th>
-                  Name
-                </th>
-                <th>
-                  Calories
-                </th>
+                <th>Name</th>
+                <th>Calories</th>
+                <th>Proteins</th>
+                <th>Carbs</th>
+                <th>Fats</th>
+                <th>Unit</th>
+                <th>Quantity</th>
               </tr>
               {this.state.foods_list}
           </table>

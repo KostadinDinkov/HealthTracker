@@ -95,7 +95,7 @@ class RegistrationForm extends React.Component{
         }
         //user["gender"]=this.state.gender;
         //user["birth_date"]=this.state.birth_date;
-        user["age"]="22";
+        user["birthDate"]=this.state.birth_date;
         user["height"]=this.state.height;
         user["weight"]=this.state.weight;
         console.log(user)
