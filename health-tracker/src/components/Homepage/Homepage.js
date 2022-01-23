@@ -391,6 +391,7 @@ class Homepage extends React.Component {
     return (
       <div className="Homepage">
         <span className="caloric-balance">Calorie Balance: {this.state.caloric_balance}</span>
+      
         <div className="exercises">
           <div className="exercise-header">
             <div className="header-title">

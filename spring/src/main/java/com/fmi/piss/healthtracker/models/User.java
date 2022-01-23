@@ -140,13 +140,6 @@ public class User {
 
     public void setBirthDate(LocalDate birthDate){
         this.birthDate = birthDate;
-        LocalDate today = LocalDate.now();
-        if(birthDate!=null){
-            int years = Period.between(birthDate,today).getYears();
-            this.age = years;
-            System.out.println(age + "years old");
-        }
-
     }
 
     public LocalDate getBirthDate() {
