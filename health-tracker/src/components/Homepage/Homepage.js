@@ -192,12 +192,8 @@ class Homepage extends React.Component {
       var updated_foods_list = [...this.state.foods_list]
       updated_foods_list.push(
         <tr className="food-row" name={this.state.food_details["serving_qty"] + " " + this.state.food_details["serving_unit"]+" "+this.state.food_details["food_name"]} onClick={this.onPickSuggestion}>
-          <td>
-            {this.state.food_details["food_name"]}
-          </td>
-          <td>
-            {this.state.food_details["nf_calories"]}
-          </td>
+          <td>{this.state.food_details["food_name"]} </td>
+          <td>{this.state.food_details["nf_calories"]}</td>
           <td>
             {this.state.food_details["nf_protein"]}
           </td>
@@ -537,27 +533,13 @@ class Homepage extends React.Component {
 
           <table className="foods-list">
               <tr className="food-header">
-                <th>
-                  Name
-                </th>
-                <th>
-                  Calories
-                </th>
-                <th>
-                  Proteins
-                </th>
-                <th>
-                  Carbs
-                </th>
-                <th>
-                  Fats
-                </th>
-                <th>
-                  Serving Unit
-                </th>
-                <th>
-                  Serving Quantity
-                </th>
+                <th>Name</th>
+                <th>Calories</th>
+                <th>Proteins</th>
+                <th>Carbs</th>
+                <th>Fats</th>
+                <th>Unit</th>
+                <th>Quantity</th>
               </tr>
               {this.state.foods_list}
           </table>

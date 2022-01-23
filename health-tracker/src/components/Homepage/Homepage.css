@@ -83,19 +83,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .food-header{
-  display: flex;
   width: 100%;
-  justify-content: space-between;
  }
 
 .food-row{
- display: flex;
  width: 100%;
- justify-content: space-between;
  cursor: pointer;
+ text-align: center;
 }
 .food-row:hover{
   background-color: #cecece;
@@ -168,3 +167,7 @@
   flex-direction: column;
 }
 
+td,th{
+  width: 10ch;
+  border:none
+}
