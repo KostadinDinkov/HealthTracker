@@ -50,9 +50,9 @@ public class User {
     @JsonProperty("weight")
     @Column(nullable = true)
     private double weight;
-    @Column(nullable = true)
-    private double age;
-
+    //@Column(nullable = true)
+    //private double age;
+//
     private LocalDate birthDate;
 
     public Set<Exercise> getExercises() {
@@ -134,9 +134,9 @@ public class User {
         this.weight = weight;
     }
 
-    public double getAge() {
-        return age;
-    }
+    //public double getAge() {
+    //    return age;
+    //}
 
     public void setBirthDate(LocalDate birthDate){
         this.birthDate = birthDate;
@@ -174,7 +174,7 @@ public class User {
                 ", gender=" + gender +
                 ", height=" + height +
                 ", weight=" + weight +
-                ", age=" + age +
+                ", age=" + birthDate +
                 '}';
     }
 }
