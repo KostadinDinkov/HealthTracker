@@ -20,7 +20,7 @@ class UserPage extends React.Component {
             first_name: "Error",
             last_name: "Error",
             gender:1,
-            age: -1,
+            birthDate: -1,
             height: -1,
             weight: -1,
             foods: [],
@@ -48,7 +48,7 @@ class UserPage extends React.Component {
                 console.log(res)
                 this.setState({ first_name: res["first_name"] })
                 this.setState({ last_name: res["last_name"] })
-                this.setState({ age: res["age"] })
+                this.setState({ birthDate: res["birthDate"] })
                 this.setState({ height: res["height"] })
                 this.setState({ weight: res["weight"] })
                 this.setState({ foods: res["foods"] })
@@ -80,15 +80,27 @@ class UserPage extends React.Component {
         e.preventDefault()
 
         var isChange = false
+        var user = {}
+        user["email"] = this.state.email
+        user["first_name"] = this.state.first_name
+        user["last_name"] = this.state.last_name
+        user["birthDate"] = this.state.birthDate
+        user["height"] = this.state.height
+        user["weight"] = this.state.weight
+        user["foods"] = this.state.foods
+        user["exercises"] = this.state.exercises
+        user["gender"] = this.state.gender
 
         var first_name = this.state.temp_first_name;
         if(first_name!==""){
             this.setState({first_name:first_name})
+            user["first_name"] = first_name;
             isChange = true
         }
 
         var last_name = this.state.temp_last_name;
         if(last_name!==""){
+            user["last"] = last_name;
             this.setState({last_name:last_name})
             isChange = true
         }
@@ -96,6 +108,7 @@ class UserPage extends React.Component {
         var height = this.state.temp_height
 
         if(height!==""){
+            user["height"] = height;
             this.setState({height:height})
             isChange = true
         }
@@ -103,21 +116,13 @@ class UserPage extends React.Component {
         var weight = this.state.temp_weight
 
         if(weight!==""){
+            user["weight"] = weight;
             this.setState({weight:weight})
             isChange = true
         }
 
         if(isChange){
-            var user = {}
-            user["email"] = this.state.email
-            user["first_name"] = this.state.first_name
-            user["last_name"] = this.state.last_name
-            user["age"] = this.state.age
-            user["height"] = this.state.height
-            user["weight"] = this.state.weight
-            user["foods"] = this.state.foods
-            user["exercises"] = this.state.exercises
-            user["gender"] = this.state.gender
+            
 
             const requestOptions = {
                 method: 'POST',
@@ -145,7 +150,7 @@ class UserPage extends React.Component {
                         <button onClick={this.editProfile}><FontAwesomeIcon icon={faPen}></FontAwesomeIcon></button>
                     </div>
                     <span className="username">Name: {this.state.first_name} {this.state.last_name}</span>
-                    <span className="date-of-birth">Age: {this.state.age}</span>
+                    <span className="date-of-birth">Age: {this.state.birthDate}</span>
                     <span className="height">Height: {this.state.height} cm</span>
                     <span className="weight">Weight: {this.state.weight} kg</span>
                 </div>

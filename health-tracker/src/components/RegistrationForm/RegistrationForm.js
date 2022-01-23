@@ -78,10 +78,24 @@ class RegistrationForm extends React.Component{
     }
 
     onSubmit(e) {
-        e.preventDefault()
+        //e.preventDefault()
+
+        (async () => 
+        {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(this.state.password);
+            var hash = ""
+            
+                hash = await crypto.subtle.digest('SHA-256',data);
+            
+            const hashArray = Array.from(new Uint8Array(hash));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        })().then(hash => {
+            
         var user={};
         user["email"]=this.state.email;
-        user["password"]=this.state.password;
+        user["password"] = hash;
         user["first_name"]=this.state.first_name;
         user["last_name"]=this.state.last_name;
         
@@ -205,8 +219,8 @@ class RegistrationForm extends React.Component{
 
                  
      }  
-               
         
+        }).catch(error => console.log(error))       
     }
 
     render(){

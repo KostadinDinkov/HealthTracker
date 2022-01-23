@@ -45,10 +45,24 @@ class LoginForm extends React.Component{
         this.setState({ result: e })
     }
     onSubmit(e) {
-        e.preventDefault()
+        //e.preventDefault()
+
+        (async () => 
+        {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(this.state.password);
+            var hash = ""
+            
+                hash = await crypto.subtle.digest('SHA-256',data);
+            
+            const hashArray = Array.from(new Uint8Array(hash));
+            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            return hashHex;
+        })().then(hash => {
+
         var user={};
         user["email"]=this.state.email;
-        user["password"]=this.state.password;
+        user["password"]=hash;
         var isError=0;
         var email_reg=/^(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
         
@@ -98,7 +112,10 @@ class LoginForm extends React.Component{
             }
         }
             )).catch(error=>{console.error(error)})           
-     }  
+     } 
+
+        }).catch(error => console.log(error))
+         
                
         
     }
