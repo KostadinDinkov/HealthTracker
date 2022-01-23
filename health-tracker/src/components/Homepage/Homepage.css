@@ -48,17 +48,20 @@
   font-size: 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  
 }
 .exercise-table-header{
+  justify-content: center;
+  width: 100%;
   display: flex;
   width: 100%;
-  justify-content: space-between;
  }
 .exercise-row{
+  justify-content: center;
  display: flex;
  width: 100%;
- justify-content: space-between;
+ text-align: center;
+
  cursor: pointer;
 }
 .exercise-row:hover{
@@ -193,4 +196,8 @@ p{
 td,th{
   width: 10ch;
   border:none
+}
+
+.exercise-row td,th{
+  width: 33%;
 }
