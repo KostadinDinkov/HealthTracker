@@ -27,9 +27,9 @@ class Homepage extends React.Component {
       food_options:' ',
       exercise_options:' ',
       exercise_list:[],
-      food_description:<p>Add Foods and we'll tell you how many calories you're consuming.</p>,
+      food_description:<p>Add a food to see how many calories you're consuming.</p>,
       foods_list:[],
-      exercise_description:<p>Add Exercises and we'll tell you how many calories you're burning.</p>,
+      exercise_description:<p>Add an exercise to see how many calories you're burning.</p>,
       caloric_balance:0,
       proteins:0,
       carbs:0,
@@ -468,10 +468,12 @@ class Homepage extends React.Component {
   render() {
     return (
       <div className="Homepage">
-        <span className="caloric-balance">Calorie Balance: {this.state.caloric_balance.toFixed(2)}</span>
-        <span className="caloric-balance">Proteins: {this.state.proteins.toFixed(2)}</span>
-        <span className="caloric-balance">Carbs: {this.state.carbs.toFixed(2)}</span>
-        <span className="caloric-balance">Fats: {this.state.fats.toFixed(2)}</span>
+        <div class="balance">
+        <span className="caloric-balance">Caloric Balance: {this.state.caloric_balance.toFixed(2)}</span>
+        <span className="caloric-details">Proteins: {this.state.proteins.toFixed(2)}</span>
+        <span className="caloric-details">Carbs: {this.state.carbs.toFixed(2)}</span>
+        <span className="caloric-details">Fats: {this.state.fats.toFixed(2)}</span>
+        </div>
         <div className="exercises">
           <div className="exercise-header">
             <div className="header-title">
@@ -480,7 +482,7 @@ class Homepage extends React.Component {
           </div>
           <div className="search-field">
           <div className="search-container">
-            <input type="text" className="search-bar" placeholder="Search for exercises here..." id="exercise_search" value={this.state.exercise} onChange={this.onChangeExercise} />
+            <input type="text" type="Search" className="search-bar" placeholder="Search for exercises here..." id="exercise_search" value={this.state.exercise} onChange={this.onChangeExercise} />
             <button className="search-button" onClick={this.onPickExercise}><FontAwesomeIcon className="icon" icon={faSearch}/></button>
           </div>
           </div>
@@ -513,7 +515,7 @@ class Homepage extends React.Component {
           </div>
           <div className="search-field">
           <div className="search-container">
-            <input type="text" className="search-bar" placeholder="Search for foods here..." id="food_search" value={this.state.food} onChange={this.onChangeFood}/>
+            <input type="text" type="Search" className="search-bar" placeholder="Search for foods here..." id="food_search" value={this.state.food} onChange={this.onChangeFood}/>
             <button className="search-button" ><FontAwesomeIcon className="icon" icon={faSearch} onClick={this.onPickUserFood}/></button>
           </div>
           <div className="suggestion-container">
