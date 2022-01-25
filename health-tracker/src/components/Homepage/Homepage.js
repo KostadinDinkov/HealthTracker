@@ -2,6 +2,25 @@ import React from 'react';
 import './Homepage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 class Homepage extends React.Component {
   constructor(props){
@@ -35,7 +54,8 @@ class Homepage extends React.Component {
       carbs:0,
       fats:0,
       email:'',
-      loggedIn:false
+      loggedIn:false,
+      chart:''
     }
 
     if(localStorage.getItem('loggedIn')==="true"){
@@ -133,7 +153,55 @@ class Homepage extends React.Component {
       }
       )
     .catch(error=>{console.error(error)})
+
+
+    fetch('/users/weeklyBalance', requestOptions).then(res => res.json())
+    .then(res => 
+      {
+        const labels = [];
+
+        const d = new Date();
+        let today = d.getDay();
+        const daysOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] 
+        for (let index = today-6; index <= today; index++) {
+          
+          let day = ((index%7) + 7) % 7;
+          labels.push(daysOfWeek[day]);
+        }
+        var weeklyBalance = res.reverse()
+        weeklyBalance.shift()
+        console.log(weeklyBalance)
+      
+       var options = {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Your Weekly Balance',
+            },
+          },
+        };
+
+        const data = {
+          labels,
+          datasets: [
+            {
+              label: 'Calories',
+              data: weeklyBalance,
+              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            }
+          ],
+        };
+        this.setState({chart:<Bar options={options} data={data}/>})
+      }
+      )
+    .catch(error=>{console.error(error)})
     }
+
+
   }
   
   onChangeExercise(e){
@@ -466,6 +534,7 @@ class Homepage extends React.Component {
 
 
   render() {
+    
     return (
       <div className="Homepage">
         <div class="balance">
@@ -543,6 +612,12 @@ class Homepage extends React.Component {
               {this.state.foods_list}
           </table>
         </div>
+
+        <div className="calorie-chart">
+              {this.state.chart}
+        </div>
+        
+
       </div>
 
       
