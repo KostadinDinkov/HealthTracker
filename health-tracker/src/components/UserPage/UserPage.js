@@ -147,7 +147,7 @@ class UserPage extends React.Component {
                 <div id="profile" className="profile-tab">
                     
                     
-                <img src="D:/test.png" id="profile-pic"></img>
+                <img src="http://greenarea.me/wp-content/uploads/2017/07/healthy-lifestyle-vector_23-2147499189.jpg" id="profile-pic"></img>
                     <div className="profile-header">
                         <span class="heading">User Profile</span>
                         <button onClick={this.editProfile}><FontAwesomeIcon icon={faPen}></FontAwesomeIcon></button>
