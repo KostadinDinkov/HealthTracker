@@ -2,6 +2,25 @@ import React from 'react';
 import './Homepage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 class Homepage extends React.Component {
   constructor(props){
@@ -10,14 +29,15 @@ class Homepage extends React.Component {
     this.onPickExercise = this.onPickExercise.bind(this);
     this.addExercise = this.addExercise.bind(this);
     this.discardExercise = this.discardExercise.bind(this);
-    this.onGetExerciseDetails = this.onGetExerciseDetails.bind(this)
-
+    this.onGetExerciseDetails = this.onGetExerciseDetails.bind(this);
+    this.handleExerciseKey = this.handleExerciseKey.bind(this);
 
     this.onChangeFood = this.onChangeFood.bind(this);
     this.onPickSuggestion = this.onPickSuggestion.bind(this);
     this.onPickUserFood = this.onPickUserFood.bind(this);
     this.addFood = this.addFood.bind(this);
     this.discardFood = this.discardFood.bind(this);
+    this.handleFoodKey = this.handleFoodKey.bind(this);
 
     this.state = {
       exercise:' ',
@@ -35,7 +55,8 @@ class Homepage extends React.Component {
       carbs:0,
       fats:0,
       email:'',
-      loggedIn:false
+      loggedIn:false,
+      chart:''
     }
 
     if(localStorage.getItem('loggedIn')==="true"){
@@ -133,7 +154,55 @@ class Homepage extends React.Component {
       }
       )
     .catch(error=>{console.error(error)})
+
+
+    fetch('/users/weeklyBalance', requestOptions).then(res => res.json())
+    .then(res => 
+      {
+        const labels = [];
+
+        const d = new Date();
+        let today = d.getDay();
+        const daysOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] 
+        for (let index = today-6; index <= today; index++) {
+          
+          let day = ((index%7) + 7) % 7;
+          labels.push(daysOfWeek[day]);
+        }
+        var weeklyBalance = res.reverse()
+        weeklyBalance.shift()
+        console.log(weeklyBalance)
+      
+       var options = {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: true,
+              text: 'Your Weekly Balance',
+            },
+          },
+        };
+
+        const data = {
+          labels,
+          datasets: [
+            {
+              label: 'Calories',
+              data: weeklyBalance,
+              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            }
+          ],
+        };
+        this.setState({chart:<Bar options={options} data={data}/>})
+      }
+      )
+    .catch(error=>{console.error(error)})
     }
+
+
   }
   
   onChangeExercise(e){
@@ -246,6 +315,7 @@ class Homepage extends React.Component {
         .catch(error=>{console.error(error)})
   
       }
+      this.discardFood();
   }
 
   addExercise(){
@@ -289,6 +359,7 @@ class Homepage extends React.Component {
       .catch(error=>{console.error(error)})
 
     }
+    this.discardExercise();
   }
 
   discardExercise(){
@@ -299,7 +370,6 @@ class Homepage extends React.Component {
   discardFood(){
     var defaultVal = <p>Add Foods and we'll tell you how many calories you're consuming.</p>
     this.setState({food_description:defaultVal})
-    console.log(this.state.foods_list)
   }
 
   onChangeFood(e){
@@ -406,7 +476,14 @@ class Homepage extends React.Component {
               <span id='food-calories' val={res["nf_calories"]}>Calories: {res["nf_calories"]} cal</span>
               <span>Fat: {res["nf_total_fat"]} g</span>
               <span>Protein: {res["nf_protein"]} g</span>
+<<<<<<< HEAD
               <span>Carbs: {res["nf_total_carbohydrate"]}</span>
+=======
+              <span>Carbs: {res["nf_total_carbohydrate"]} g</span>
+              <div className="food-buttons">
+                <button onClick={this.addFood}><FontAwesomeIcon className="icon" icon={faCheck}/></button>
+                <button onClick={this.discardFood}><FontAwesomeIcon className="icon" icon={faTimes}/></button>
+>>>>>>> c729a63c506f1f3caf4ed25a6da7214759e7dac1
               </div>
           
           </div>     
@@ -449,7 +526,7 @@ class Homepage extends React.Component {
               <span id='food-calories' val={res["nf_calories"]}>Calories: {res["nf_calories"]} cal</span>
               <span>Fat: {res["nf_total_fat"]} g</span>
               <span>Protein: {res["nf_protein"]} g</span>
-              <span>Carbs: {res["nf_total_carbohydrate"]}</span>
+              <span>Carbs: {res["nf_total_carbohydrate"]} g</span>
               <div className="food-buttons">
                 <button onClick={this.addFood}><FontAwesomeIcon className="icon" icon={faCheck}/></button>
                 <button onClick={this.discardFood}><FontAwesomeIcon className="icon" icon={faTimes}/></button>
@@ -465,9 +542,23 @@ class Homepage extends React.Component {
   .catch(error=>{console.error(error)})
   }
 
+  handleExerciseKey(e){
+      if(e.key == "Enter"){
+        console.log("Exercise handled")
+        this.onPickExercise()
+      }
+  }
+
+  handleFoodKey(e){
+    if(e.key == "Enter"){
+      console.log("Food handled")
+      this.onPickUserFood()
+    }
+  }
 
 
   render() {
+    
     return (
       <div className="Homepage">
         <div class="balance">
@@ -484,7 +575,7 @@ class Homepage extends React.Component {
           </div>
           <div className="search-field">
           <div className="search-container">
-            <input type="text" type="Search" className="search-bar" placeholder="Search for exercises here..." id="exercise_search" value={this.state.exercise} onChange={this.onChangeExercise} />
+            <input type="text" type="Search" className="search-bar" placeholder="Search for exercises here..." id="exercise_search" value={this.state.exercise} onKeyUp={this.handleExerciseKey} onChange={this.onChangeExercise} />
             <button className="search-button" onClick={this.onPickExercise}><FontAwesomeIcon className="icon" icon={faSearch}/></button>
           </div>
           </div>
@@ -517,7 +608,7 @@ class Homepage extends React.Component {
           </div>
           <div className="search-field">
           <div className="search-container">
-            <input type="text" type="Search" className="search-bar" placeholder="Search for foods here..." id="food_search" value={this.state.food} onChange={this.onChangeFood}/>
+            <input type="text" type="Search" className="search-bar" placeholder="Search for foods here..." id="food_search" onKeyUp={this.handleFoodKey} value={this.state.food} onChange={this.onChangeFood}/>
             <button className="search-button" ><FontAwesomeIcon className="icon" icon={faSearch} onClick={this.onPickUserFood}/></button>
           </div>
           <div className="suggestion-container">
@@ -545,6 +636,12 @@ class Homepage extends React.Component {
               {this.state.foods_list}
           </table>
         </div>
+
+        <div className="calorie-chart">
+              {this.state.chart}
+        </div>
+        
+
       </div>
 
       
