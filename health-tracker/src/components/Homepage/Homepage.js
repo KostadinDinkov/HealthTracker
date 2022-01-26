@@ -192,7 +192,7 @@ class Homepage extends React.Component {
             {
               label: 'Calories',
               data: weeklyBalance,
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              backgroundColor: 'rgba(87, 187, 157, 0.5)',
             }
           ],
         };
@@ -237,10 +237,12 @@ class Homepage extends React.Component {
     {
       //console.log(res);
         item_description = 
+        
         <div className="food-info">
-            <span id='exercise-name' val={res["name"]}>Name: {res["name"]}</span>
-            <span>Duration: {res["duration_min"]} m</span>
-            <span id='exercise-calories' val={res["nf_calories"]}>Calories: {res["nf_calories"]} cal</span>
+             <span id='exercise-name' val={res["name"]}>Name: {res["name"]}</span>
+             <span>Duration: {res["duration_min"]} m</span>
+             <span id='exercise-calories' val={res["nf_calories"]}>Calories: {res["nf_calories"]} cal</span>
+          
             <div className="exercise-buttons">
               <button onClick={this.addExercise}><FontAwesomeIcon className="icon" icon={faCheck}/></button>
               <button onClick={this.discardExercise}><FontAwesomeIcon className="icon" icon={faTimes}/></button>
@@ -472,22 +474,13 @@ class Homepage extends React.Component {
               <span id='food-name' val={res["food_name"]}>Name: {res["food_name"]}</span>
               <span>Serving Quantity: {res["serving_qty"]}</span>
               <span>Serving Unit: {res["serving unit"]}</span>
-              <span>Serving Weight: {res["serving_weight_grams"]} g</span>
+              <span>Serving Weight: {res[""]} g</span>
               <span id='food-calories' val={res["nf_calories"]}>Calories: {res["nf_calories"]} cal</span>
               <span>Fat: {res["nf_total_fat"]} g</span>
-              <span>Protein: {res["nf_protein"]} g</span>
-<<<<<<< HEAD
+              <span>Protein: {res["nserving_weight_gramsf_protein"]} g</span>
               <span>Carbs: {res["nf_total_carbohydrate"]}</span>
-=======
-              <span>Carbs: {res["nf_total_carbohydrate"]} g</span>
-              <div className="food-buttons">
-                <button onClick={this.addFood}><FontAwesomeIcon className="icon" icon={faCheck}/></button>
-                <button onClick={this.discardFood}><FontAwesomeIcon className="icon" icon={faTimes}/></button>
->>>>>>> c729a63c506f1f3caf4ed25a6da7214759e7dac1
-              </div>
-          
-          </div>     
-        
+                    </div>     
+        </div>
 
         this.setState({food_description: item_description})
         this.setState({food_details:res})
