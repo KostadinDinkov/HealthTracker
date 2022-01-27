@@ -100,7 +100,7 @@ class UserPage extends React.Component {
 
         var last_name = this.state.temp_last_name;
         if(last_name!==""){
-            user["last"] = last_name;
+            user["last_name"] = last_name;
             this.setState({last_name:last_name})
             isChange = true
         }
